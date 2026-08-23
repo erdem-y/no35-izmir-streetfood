@@ -1,0 +1,367 @@
+@import "tailwindcss";
+
+/*
+  No.35 Original Izmir Streetfood - V5
+  ------------------------------------------------------------------
+  The photographs are the design.
+
+  V3 and V4 sat content on pale glass panels, which meant a large white
+  rectangle covering the picture in almost every section. Those are gone.
+  Type now sits directly on the photography in warm off-white, and readability
+  comes from narrow directional gradients that darken only the band under the
+  text.
+
+  Panels survive in exactly two places where they are genuinely UI rather than
+  decoration: the product card and the menu sheet. Both are dark and
+  translucent so the scene still reads through them, never white.
+
+  Radius rule: surfaces and media use --radius-card (18px); interactive
+  buttons are fully rounded pills.
+*/
+
+:root {
+  /* Type. Charcoal, never pure black. */
+  --c-ink: #16272f;
+  --c-ink-soft: #35525f;
+  --c-ink-dim: #3d5866;
+
+  /* Aegean blue accent */
+  --c-accent: #0a5c7c;
+  --c-accent-bright: #2ba0cb;
+  --c-accent-solid: #0a5c7c;
+  --c-accent-solid-hover: #084a63;
+  --c-on-accent: #fbfeff;
+
+  /* Type used only over photographic heroes */
+  --c-on-photo: #f7f3ec;
+  --c-on-photo-soft: #dbe4e6;
+  --c-accent-on-photo: #a9e2f7;
+
+  /* Warm supporting neutrals, used sparingly */
+  --c-sand: #e0cdb0;
+  --c-stone: #b9cbd4;
+  --c-olive: #6d7b52;
+
+  /* Panels: dark and translucent, so the photograph reads through them. */
+  --c-glass: rgb(13 19 24 / 0.62);
+  --c-glass-strong: rgb(11 16 20 / 0.76);
+  --c-glass-soft: rgb(13 19 24 / 0.62);
+  --c-glass-border: rgb(255 255 255 / 0.16);
+  --c-glass-ring: rgb(0 0 0 / 0.25);
+
+  /* Page base, visible only before scenes paint */
+  --c-base: #121a1f;
+
+  --blur-glass: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Marginally deeper panels, same identity. */
+    --c-glass: rgb(10 15 19 / 0.68);
+    --c-glass-strong: rgb(8 13 16 / 0.8);
+    --c-glass-soft: rgb(10 15 19 / 0.66);
+    --c-base: #0d1418;
+  }
+}
+
+@theme {
+  --color-ink: var(--c-ink);
+  --color-ink-soft: var(--c-ink-soft);
+  --color-ink-dim: var(--c-ink-dim);
+  --color-accent: var(--c-accent);
+  --color-accent-bright: var(--c-accent-bright);
+  --color-accent-solid: var(--c-accent-solid);
+  --color-accent-solid-hover: var(--c-accent-solid-hover);
+  --color-on-accent: var(--c-on-accent);
+  --color-sand: var(--c-sand);
+  --color-stone: var(--c-stone);
+  --color-olive: var(--c-olive);
+  --color-on-photo: var(--c-on-photo);
+  --color-on-photo-soft: var(--c-on-photo-soft);
+  --color-accent-on-photo: var(--c-accent-on-photo);
+  --color-glass: var(--c-glass);
+  --color-glass-strong: var(--c-glass-strong);
+  --color-glass-soft: var(--c-glass-soft);
+  --color-glass-border: var(--c-glass-border);
+  --color-glass-ring: var(--c-glass-ring);
+  --color-base: var(--c-base);
+
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1.125rem;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+  background-color: var(--c-base);
+}
+
+/*
+  Transparent on purpose. The base colour lives on <html> only: a background
+  on <body> paints after the fixed scene stack and would hide it.
+*/
+body {
+  background-color: transparent;
+  color: var(--c-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: var(--c-accent-solid);
+  color: var(--c-on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-accent-solid);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/*
+  The single glass material.
+
+  Editorial rather than gaming-UI: a pale warm fill, a bright inner edge, one
+  very soft shadow, and a faint dark ring so the panel still has an edge when
+  it sits on a light part of a scene. No neon, no stacked gradients.
+*/
+.glass {
+  background-color: var(--c-glass);
+  backdrop-filter: blur(var(--blur-glass)) saturate(118%);
+  -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(118%);
+  border: 1px solid var(--c-glass-border);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.1),
+    0 24px 60px rgb(0 0 0 / 0.4);
+}
+
+.glass-strong {
+  background-color: var(--c-glass-strong);
+}
+
+.glass-soft {
+  background-color: var(--c-glass-soft);
+  backdrop-filter: blur(14px) saturate(112%);
+  -webkit-backdrop-filter: blur(14px) saturate(112%);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --blur-glass: 13px;
+  }
+}
+
+@supports not (backdrop-filter: blur(4px)) {
+  .glass,
+  .glass-soft {
+    background-color: rgb(255 253 248 / 0.95);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass-soft {
+    background-color: rgb(13 19 24 / 0.95);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* Very slow ambient drift, so still scenes still feel like weather. */
+@keyframes scene-drift {
+  0% {
+    transform: scale(1.06) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.12) translate3d(-1.2%, -0.8%, 0);
+  }
+  100% {
+    transform: scale(1.06) translate3d(0, 0, 0);
+  }
+}
+
+.scene-drift {
+  animation: scene-drift 46s ease-in-out infinite;
+  will-change: transform;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .scene-drift,
+  .fx-steam,
+  .fx-steam-delayed,
+  .fx-gloss,
+  .fx-drift {
+    animation: none !important;
+  }
+
+  .scene-drift {
+    transform: scale(1.04);
+  }
+
+  .fx-steam,
+  .fx-steam-delayed,
+  .fx-gloss {
+    opacity: 0 !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/*
+  Section headings sit directly on the photograph. No white wash: readability
+  comes from the directional scrim already applied to each scene, and type is
+  warm off-white with a soft text shadow for edge cases where a bright patch
+  of image sits behind a letterform.
+*/
+.on-photo-type {
+  text-shadow: 0 1px 24px rgb(8 13 17 / 0.55), 0 1px 3px rgb(8 13 17 / 0.4);
+}
+
+/*
+  Heat shimmer for hot food. A very slow, very small vertical scale wobble on
+  a transparent overlay, which reads as rising warm air without touching the
+  food pixels themselves.
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-shimmer {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
+
+/*
+  FOOD MICRO-ANIMATION SYSTEM
+  ------------------------------------------------------------------
+  Every featured dish animates. The effects are deliberately readable: an
+  animation that exists only in the stylesheet is not an animation. They are
+  still slow and physical, never cartoon smoke and never a glow.
+
+  Nothing here touches the food pixels. Steam and shimmer are transparent
+  layers composited above a stable photograph, so a real photo stays real.
+
+  Verified by scripts/qa/motion.mjs, which diffs frames of every card and
+  fails if any of the six is static.
+*/
+
+/* Rising steam wisp: drifts up and sideways, spreading and fading. */
+@keyframes wisp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18%, 0) scale(0.7);
+  }
+  18% {
+    opacity: 0.62;
+  }
+  60% {
+    opacity: 0.38;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(14%, -78%, 0) scale(1.7);
+  }
+}
+
+.fx-wisp {
+  animation-name: wisp;
+  animation-timing-function: cubic-bezier(0.35, 0, 0.5, 1);
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+/* Heat haze: the air just above something hot, breathing slowly. */
+@keyframes haze {
+  0% {
+    opacity: 0.22;
+    transform: translate3d(0, 0, 0) scaleY(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate3d(-1.5%, -2.2%, 0) scaleY(1.06);
+  }
+  100% {
+    opacity: 0.22;
+    transform: translate3d(0, 0, 0) scaleY(1);
+  }
+}
+
+.fx-haze {
+  animation: haze 6s ease-in-out infinite;
+  transform-origin: bottom center;
+  will-change: transform, opacity;
+}
+
+/* Slow light sweep across the dish, so even a cold plate is never static. */
+@keyframes sweep {
+  0% {
+    opacity: 0;
+    transform: translate3d(-130%, 0, 0) rotate(12deg);
+  }
+  25% {
+    opacity: 0.42;
+  }
+  60% {
+    opacity: 0;
+    transform: translate3d(140%, 0, 0) rotate(12deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(140%, 0, 0) rotate(12deg);
+  }
+}
+
+.fx-sweep {
+  animation: sweep 11s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Very slow push, giving the still image a living camera. */
+@keyframes food-drift {
+  0% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.07) translate3d(-1.1%, -0.9%, 0);
+  }
+  100% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+}
+
+.fx-drift {
+  animation: food-drift 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-wisp,
+  .fx-haze,
+  .fx-sweep,
+  .fx-drift {
+    animation: none !important;
+  }
+
+  .fx-wisp,
+  .fx-haze,
+  .fx-sweep {
+    opacity: 0 !important;
+  }
+
+  .fx-drift {
+    transform: scale(1.02);
+  }
+}

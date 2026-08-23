@@ -1,0 +1,22 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Generated media (fal.ai output — regenerable, not source of truth)
+generated/*
+!generated/.gitkeep
+!generated/images/.gitkeep
+!generated/videos/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
+
+# QA artefacts
+scratch/
+dist/
