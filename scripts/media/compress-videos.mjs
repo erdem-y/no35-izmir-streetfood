@@ -1,6 +1,6 @@
 import ffmpegPath from "ffmpeg-static";
 import { execFileSync } from "node:child_process";
-import { mkdirSync, statSync, readdirSync } from "node:fs";
+import { mkdirSync, statSync, readdirSync, existsSync } from "node:fs";
 import path from "node:path";
 
 /*
@@ -37,6 +37,17 @@ let after = 0;
 for (const file of files) {
   const src = path.join(SOURCE_DIR, file);
   const out = path.join(OUT_DIR, file);
+
+  /*
+    Never re-encode a clip that is already published. Re-running ffmpeg over
+    an approved asset would produce a different file for no benefit, and the
+    Kokoreç clip in particular is a locked reference. Delete the file in
+    public/media first if a deliberate re-encode is ever wanted.
+  */
+  if (existsSync(out)) {
+    console.log(`${file.padEnd(24)} already published, skipping`);
+    continue;
+  }
 
   const srcSize = statSync(src).size;
   before += srcSize;

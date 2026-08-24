@@ -15,17 +15,17 @@ import { business } from "../data/business";
   business.address.needsVerification.
 */
 export function Visit() {
-  const { address } = business;
+  const locations = business.locations ?? [];
 
   return (
     <section
       id="finden"
       data-scene="finden"
-      className="relative mx-auto max-w-[1400px] px-4 py-24 sm:px-6 lg:px-10 lg:py-32"
+      className="relative mx-auto max-w-[1400px] px-4 py-16 sm:px-6 sm:py-24 lg:px-10 lg:py-32"
     >
             <div className="relative grid gap-12 lg:grid-cols-12 lg:gap-16">
         <Reveal className="lg:col-span-5">
-          <h2 className="on-photo-type max-w-[18ch] font-display text-4xl leading-[1.06] font-semibold tracking-tight text-on-photo sm:text-5xl">
+          <h2 className="on-photo-type max-w-[18ch] font-display text-[2rem] leading-[1.08] font-semibold tracking-tight text-on-photo sm:text-5xl sm:leading-[1.06]">
             Kommen Sie vorbei.
           </h2>
           <p className="on-photo-type mt-5 max-w-[42ch] text-[16px] leading-relaxed text-on-photo-soft">
@@ -46,19 +46,47 @@ export function Visit() {
 
         <Reveal delay={0.1} className="lg:col-span-7">
           <GlassCard as="dl" tone="strong" className="divide-y divide-[rgb(255_255_255/0.12)] overflow-hidden">
-            <InfoRow icon={<MapPin size={20} />} label="Adresse">
-              <address className="text-[16px] leading-relaxed font-medium text-on-photo not-italic">
-                {address.street}
-                <br />
-                {address.postalCode} {address.city}
-              </address>
+            <InfoRow
+              icon={<MapPin size={20} />}
+              label={locations.length > 1 ? "Standorte" : "Adresse"}
+            >
+              {/*
+                Renders every entry in business.locations. With one location it
+                is the single address exactly as before; with two or more it
+                becomes a labelled two-column list, so adding the second branch
+                to the data is all that is required.
+              */}
+              <div
+                className={
+                  locations.length > 1
+                    ? "grid gap-5 sm:grid-cols-2 sm:gap-x-8"
+                    : ""
+                }
+              >
+                {locations.map((location, index) => (
+                  <div key={location.id}>
+                    {locations.length > 1 && (
+                      <p className="mb-1.5 text-[10.5px] font-bold tracking-[0.14em] text-accent-on-photo uppercase">
+                        Standort {index + 1}
+                        {location.label ? ` · ${location.label}` : ""}
+                      </p>
+                    )}
 
-              {address.needsVerification && (
-                <p className="mt-3 flex gap-2 rounded-lg bg-[rgb(255_255_255/0.08)] p-3 text-[12.5px] leading-relaxed text-on-photo-soft">
-                  <Info size={16} className="mt-px shrink-0" />
-                  <span>{address.verificationNote}</span>
-                </p>
-              )}
+                    <address className="text-[15.5px] leading-relaxed font-medium text-on-photo not-italic sm:text-[16px]">
+                      {location.street}
+                      <br />
+                      {location.postalCode} {location.city}
+                    </address>
+
+                    {location.needsVerification && (
+                      <p className="mt-3 flex gap-2 rounded-lg bg-[rgb(255_255_255/0.08)] p-3 text-[12.5px] leading-relaxed text-on-photo-soft">
+                        <Info size={16} className="mt-px shrink-0" />
+                        <span>{location.verificationNote}</span>
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
             </InfoRow>
 
             <InfoRow icon={<Clock size={20} />} label="Öffnungszeiten">

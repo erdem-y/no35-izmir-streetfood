@@ -1,6 +1,7 @@
 import { JSDOM, VirtualConsole } from "jsdom";
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
+import { featuredProducts } from "../../src/data/products.js";
 
 /*
   Render smoke test for the production build.
@@ -48,9 +49,13 @@ window.matchMedia =
     dispatchEvent: () => false,
   }));
 window.scrollTo = () => {};
-if (!window.HTMLMediaElement.prototype.play) {
-  window.HTMLMediaElement.prototype.play = () => Promise.resolve();
-}
+/*
+  jsdom defines play() as a method that throws "Not implemented", so it must be
+  overridden unconditionally rather than only when missing. The page calls it
+  on the active product card.
+*/
+window.HTMLMediaElement.prototype.play = () => Promise.resolve();
+window.HTMLMediaElement.prototype.pause = () => {};
 
 const jsFile = readdirSync(path.join(DIST, "assets")).find(
   (f) => f.startsWith("index-") && f.endsWith(".js")
@@ -84,8 +89,32 @@ const checks = [
   ["Address verification notice shown", text.includes("Adresse vor Veröffentlichung")],
   ["Opening hours gap stated honestly", text.includes("Öffnungszeiten pflegen wir gerade ein")],
   [
-    "Approved Kumru image used as hero",
-    !!doc.querySelector('img[src="/media/hero-kumru-approved.webp"]'),
+    /* Kumru now renders as <video poster>, so assert the approved asset is
+       still the one backing that card rather than looking for an <img>. */
+    "Approved Kumru asset still in use",
+    doc.documentElement.innerHTML.includes("hero-kumru-approved.webp"),
+  ],
+  /*
+    Only the centre card renders a <video>, so clip wiring is asserted against
+    the data module rather than the static DOM.
+  */
+  [
+    "Kokorec image and clip unchanged",
+    (() => {
+      const k = featuredProducts.find((p) => p.id === "kokorec");
+      return k?.image === "/media/food-kokorec.webp" && k?.video === "/media/kokorec-ambient.mp4";
+    })(),
+  ],
+  [
+    "All six dishes carry an ambient clip",
+    featuredProducts.length === 6 && featuredProducts.every((p) => Boolean(p.video)),
+  ],
+  [
+    "Scene 2 is the panda street, scene 3 the Izmir road",
+    (() => {
+      const s = [...doc.querySelectorAll("main [data-scene]")].map((n) => n.dataset.scene);
+      return s[1] === "spezialitaeten" && s[2] === "speisekarte";
+    })(),
   ],
   [
     "No superseded Kumru asset referenced",

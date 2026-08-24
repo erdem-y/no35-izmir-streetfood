@@ -23,7 +23,7 @@ export function ReviewCta() {
     <section
       id="bewerten"
       data-scene="bewerten"
-      className="mx-auto max-w-[1400px] px-4 py-24 sm:px-6 lg:px-10 lg:py-28"
+      className="mx-auto max-w-[1400px] px-4 py-16 sm:px-6 sm:py-24 lg:px-10 lg:py-28"
     >
       <Reveal>
         <GlassCard className="mx-auto max-w-[52rem] px-6 py-14 text-center sm:px-12 lg:py-16">
@@ -36,7 +36,7 @@ export function ReviewCta() {
             ))}
           </div>
 
-          <h2 className="mx-auto max-w-[20ch] font-display text-3xl leading-[1.1] font-semibold tracking-tight text-on-photo sm:text-4xl">
+          <h2 className="mx-auto max-w-[20ch] font-display text-[1.75rem] leading-[1.15] font-semibold tracking-tight text-on-photo sm:text-4xl sm:leading-[1.1]">
             Hat es geschmeckt? Erzählen Sie es weiter.
           </h2>
 

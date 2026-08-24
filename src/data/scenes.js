@@ -3,8 +3,8 @@
 
   Order is fixed by the brief:
     1 Hero          the real No.35 restaurant at work
-    2 Spezialitäten the İzmir coastal road sign
-    3 Speisekarte   the panda-graffiti street
+    2 Spezialitäten the panda-graffiti street
+    3 Speisekarte   the İzmir coastal road sign
     4 Bewerten      Alaçatı, stone and pink bougainvillea
     5 Finden        the olive tree courtyard
 
@@ -23,13 +23,13 @@ export const scenes = [
   },
   {
     id: "spezialitaeten",
-    image: "/media/scene-izmir-road.webp",
+    image: "/media/scene-panda-street.webp",
     scrim: "topLeft",
     focus: "center 55%",
   },
   {
     id: "speisekarte",
-    image: "/media/scene-panda-street.webp",
+    image: "/media/scene-izmir-road.webp",
     scrim: "topLeft",
     focus: "center 55%",
   },

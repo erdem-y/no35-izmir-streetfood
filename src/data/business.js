@@ -39,6 +39,33 @@ export const business = {
   },
 
   /*
+    LOCATIONS.
+
+    The contact card renders this array, so a second branch appears the moment
+    one is added here: fill in the second entry and the card automatically
+    switches to the two-column "Standort 1 / Standort 2" layout with its own
+    label and directions link. No component change is needed.
+
+    Only ONE address exists in any supplied source. The second branch address
+    was never provided, so nothing is entered for it. The Hellbrookstraße
+    mention in the source is the map-centring ambiguity noted above, not a
+    separate branch, and it carries no house number, so it cannot be used as
+    a second location without inventing data.
+  */
+  locations: [
+    {
+      id: "barmbek",
+      label: "Barmbek-Nord",
+      street: "Hardorffsweg 15",
+      postalCode: "22305",
+      city: "Hamburg",
+      needsVerification: true,
+      verificationNote:
+        "Adresse vor Veröffentlichung bitte bestätigen. Die Quelle nennt Hardorffsweg 15, die hinterlegte Karte zeigt den Bereich Hellbrookstraße / Hardorffsweg.",
+    },
+  ],
+
+  /*
     Not present in any verified source. Left null on purpose.
     Opening hours and the Instagram handle were never supplied, and the source
     page embeds an OpenStreetMap map rather than a Google Maps place link, so

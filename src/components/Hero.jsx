@@ -41,12 +41,12 @@ export function Hero() {
     >
       <motion.div
         style={reduce ? undefined : { y: contentY, opacity: contentOpacity }}
-        className="mx-auto w-full max-w-[1400px] px-4 pt-28 pb-20 sm:px-6 lg:px-10"
+        className="mx-auto w-full max-w-[1400px] px-4 pt-24 pb-16 sm:pt-28 sm:pb-20 sm:px-6 lg:px-10"
       >
         <div className="max-w-[38rem]">
           <motion.h1
             {...item(0.05)}
-            className="font-display text-[2.8rem] leading-[1.01] font-semibold tracking-tight text-on-photo sm:text-6xl lg:text-[4.4rem]"
+            className="font-display text-[2.15rem] leading-[1.05] sm:leading-[1.01] font-semibold tracking-tight text-on-photo sm:text-6xl lg:text-[4.4rem]"
           >
             Original Izmir Streetfood.
             <span className="mt-1 block text-accent-on-photo">Mitten in Hamburg.</span>
@@ -54,13 +54,13 @@ export function Hero() {
 
           <motion.p
             {...item(0.2)}
-            className="mt-7 max-w-[34rem] text-[1.05rem] leading-relaxed text-on-photo-soft sm:text-lg"
+            className="mt-5 max-w-[34rem] text-[0.98rem] leading-relaxed text-on-photo-soft sm:mt-7 sm:text-lg"
           >
             Kumru, Kokoreç und Midye Dolma. Jeden Tag frisch zubereitet, so wie an
             der ägäischen Küste.
           </motion.p>
 
-          <motion.div {...item(0.34)} className="mt-10 flex flex-wrap items-center gap-3">
+          <motion.div {...item(0.34)} className="mt-7 flex flex-wrap sm:mt-10 items-center gap-3">
             <a
               href="#speisekarte"
               className="inline-flex items-center gap-2 rounded-full bg-accent-solid px-7 py-3.5 text-[15px] font-semibold whitespace-nowrap text-on-accent transition-colors hover:bg-accent-solid-hover active:translate-y-[1px]"
