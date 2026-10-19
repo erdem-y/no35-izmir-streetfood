@@ -43,4 +43,4 @@ The menu, prices and contact details are from when I built it and may be out of 
 
 The restaurant's name, logo and reference material are included only as context for this demo.
 
-I used AI to help write this README, and some of the images and videos are AI-generated.
+I used AI to help create the images and videos are AI-generated.
